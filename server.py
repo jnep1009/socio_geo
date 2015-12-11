@@ -2,15 +2,7 @@ import tornado.httpserver
 import tornado.ioloop
 import tornado.web
 import psycopg2 as DB
-import math
-import numpy as np
-import traceback
 import os
-import collections
-import pandas as pd
-from scipy.spatial import distance
-from geopy.distance import vincenty
-import requests
 import json
 
 
@@ -64,53 +56,8 @@ class get_query1(tornado.web.RequestHandler):
                 'name': getType().query_income(int(row[1])),
                 'data': "%.2f" % round(float(row[0]), 2)
             })
-        self.write(json.dumps(self.data))
+        self.write('hi')
 
-
-class get_query2(tornado.web.RequestHandler):
-    def get(self):
-        '''Start processes '''
-        self.data = []
-        self.allDist = []
-        conn = DB.connect('dbname=project_urban user=june')
-        cur = conn.cursor()
-        q_str = ''' select trip_des.description, avg(case when trip.date in ('1','2','3','4','5') then actv_length end) as weekday,
-                    avg(case when trip.date in ('6','7') then actv_length end) as weekend from trip, trip_des where trip_des.trip_purpose = trip.trip_purpose
-                    and trip.trip_purpose in ('2','3','5','13','15','17','18','19','20','21') group by description; ''';
-        cur.execute(q_str)
-        rows = cur.fetchall()
-        for row in rows:
-            self.data.append({
-                'name': row[0],
-                'data': ["%.2f" % round(float(row[1]), 2), "%.2f" % round(float(row[2]), 2)]
-            })
-        print(self.data)
-        self.write(json.dumps(self.data))
-
-
-class get_query4(tornado.web.RequestHandler):
-    def get(self):
-        '''Start processes '''
-        self.data = []
-        self.allDist = []
-        conn = DB.connect('dbname=project_urban user=june')
-        cur = conn.cursor()
-        q_str = ''' select b.x_lng,b.y_lat, b.pre_x, b.pre_y from (
-                    select trip.pp_id, trip.trip_no, trip.day, place.x_lng,place.y_lat,
-                    lag(place.x_lng) over client_window as pre_x,
-                    lag(place.y_lat) over client_window as pre_y,
-                    trip.trip_length
-                    from place_loc as place, trip
-                    where trip.place_id = place.place_id
-                    and cast(trip.trip_no as integer) <= 3
-                    window client_window as (partition by trip.pp_id, day order by trip.trip_no)
-                    order by trip.pp_id) as b where b.trip_no <> '1'
-                    and b.pre_x is not null and b.x_lng <> b.pre_x and b.x_lng is not null limit 5000;''';
-        cur.execute(q_str)
-        rows = cur.fetchall()
-        for row in rows:
-            self.data.append([[row[3], row[2]], [row[1], row[0]]])
-        self.write(json.dumps(self.data))
 
 
 settings = {
@@ -121,9 +68,7 @@ settings = {
 
 handlers = [
     (r"/", MainHandler),
-    (r"/get_query1", get_query1),
-    (r"/get_query2", get_query2),
-    (r"/get_query4", get_query4)
+    (r"/get_query1", get_query1)
 ]
 
 application = tornado.web.Application(handlers, **settings)
