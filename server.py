@@ -50,7 +50,7 @@ class get_query1(tornado.web.RequestHandler):
         self.data = []
         self.allDist = []
         chicago_cbd = (41.8369, -87.6847)
-        conn = DB.connect('dbname=project_urban user=june')
+        conn = DB.connect('dbname=project_urban user=postgres')
         cur = conn.cursor()
         q_str = '''select avg(actv_length), income from person, trip, household
                     where person.pp_id = trip.pp_id and household.hh_id = person.hh_id
@@ -72,7 +72,7 @@ class get_query2(tornado.web.RequestHandler):
         '''Start processes '''
         self.data = []
         self.allDist = []
-        conn = DB.connect('dbname=project_urban user=june')
+        conn = DB.connect('dbname=project_urban user=postgres')
         cur = conn.cursor()
         q_str = ''' select trip_des.description, avg(case when trip.date in ('1','2','3','4','5') then actv_length end) as weekday,
                     avg(case when trip.date in ('6','7') then actv_length end) as weekend from trip, trip_des where trip_des.trip_purpose = trip.trip_purpose
@@ -93,7 +93,7 @@ class get_query4(tornado.web.RequestHandler):
         '''Start processes '''
         self.data = []
         self.allDist = []
-        conn = DB.connect('dbname=project_urban user=june')
+        conn = DB.connect('dbname=project_urban user=postgres')
         cur = conn.cursor()
         q_str = ''' select b.x_lng,b.y_lat, b.pre_x, b.pre_y from (
                     select trip.pp_id, trip.trip_no, trip.day, place.x_lng,place.y_lat,
