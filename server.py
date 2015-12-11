@@ -2,15 +2,7 @@ import tornado.httpserver
 import tornado.ioloop
 import tornado.web
 import psycopg2 as DB
-import math
-import numpy as np
-import traceback
 import os
-import collections
-import pandas as pd
-from scipy.spatial import distance
-from geopy.distance import vincenty
-import requests
 import json
 
 
@@ -64,9 +56,10 @@ class get_query1(tornado.web.RequestHandler):
                 'name': getType().query_income(int(row[1])),
                 'data': "%.2f" % round(float(row[0]), 2)
             })
-        self.write(json.dumps(self.data))
+        self.write('hi')
 
 
+<<<<<<< HEAD
 class get_query2(tornado.web.RequestHandler):
     def get(self):
         '''Start processes '''
@@ -112,6 +105,8 @@ class get_query4(tornado.web.RequestHandler):
             self.data.append([[row[3], row[2]], [row[1], row[0]]])
         self.write(json.dumps(self.data))
 
+=======
+>>>>>>> cabd8fd9f550fc7fd016f4dd9ae125ca01464f76
 
 settings = {
     # go to the file and go find "www"
@@ -121,9 +116,7 @@ settings = {
 
 handlers = [
     (r"/", MainHandler),
-    (r"/get_query1", get_query1),
-    (r"/get_query2", get_query2),
-    (r"/get_query4", get_query4)
+    (r"/get_query1", get_query1)
 ]
 
 application = tornado.web.Application(handlers, **settings)

@@ -4,7 +4,7 @@
 define(['jquery', 'mapbox', 'highstock', 'd3', 'd3_plus', 'arc'], function ($, _, _, d3, _) {
 
     L.mapbox.accessToken = 'pk.eyJ1Ijoic3JjYyIsImEiOiJlTGVCUUZJIn0.wtVBLySJsD08rO1jtAQNJg';
-    var map = L.mapbox.map('map_canvas', 'srcc.0df35dc0')
+    var map = L.mapbox.map('map_canvas', 'srcc.b7506415')
         //var map = L.mapbox.map('map_canvas', 'srcc.637a0a6b')
         .setView([41.8369, -87.6847], 8);
 
@@ -15,15 +15,14 @@ define(['jquery', 'mapbox', 'highstock', 'd3', 'd3_plus', 'arc'], function ($, _
         return this._div;
     };
     info.update = function () {
-        this._div.innerHTML = ( "<i style='color:#1c1e24' class='fa fa-circle'></i>" + "  Manufactuting" +
-        "<br><i style='color:#1b55ed' class='fa fa-circle'></i>" + "  Transportation" +
-        "<br><i style='color:#6765bd' class='fa fa-circle'></i>" + "  Communications" +
-        "<br><i style='color:#a8afdf' class='fa fa-circle'></i>" + "  Retail" +
-        "<br><i style='color:#ebc732' class='fa fa-circle'></i>" + "  Service" +
-        "<br><i style='color:#c07c53' class='fa fa-circle'></i>" + "  Government" +
-        "<br><i style='color:#eb2b10' class='fa fa-circle'></i>" + "  Others");
+        this._div.innerHTML = ( "<i style='color:#fff800' class='fa fa-circle'></i>" + "  Shopping" +
+        "<br><i style='color:#ed1b3f' class='fa fa-circle'></i>" + "  Dining" +
+        "<br><i style='color:#33ff05' class='fa fa-circle'></i>" + "  Health Care" +
+        "<br><i style='color:#009cdd' class='fa fa-circle'></i>" + "Recreation");
     };
     info.addTo(map);
+
+    
 
 
     function initialize() {

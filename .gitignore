@@ -1,3 +1,3 @@
 .idea/
 .DS_Store
-network.tm2source/
+*.tm2source/
