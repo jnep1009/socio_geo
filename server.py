@@ -41,21 +41,9 @@ class get_query1(tornado.web.RequestHandler):
         '''Start processes '''
         self.data = []
         self.allDist = []
-        chicago_cbd = (41.8369, -87.6847)
-        conn = DB.connect('dbname=project_urban user=postgres')
+      
+        conn = DB.connect('dbname=urban_proj user=postgres')
         cur = conn.cursor()
-        q_str = '''select avg(actv_length), income from person, trip, household
-                    where person.pp_id = trip.pp_id and household.hh_id = person.hh_id
-                    and trip.date ='1' and trip.trip_purpose ='3' and income <> '9' and
-                    exists( select hh_id from person group by hh_id having count(pp_id) > 3)
-                    group by income; ''';
-        cur.execute(q_str)
-        rows = cur.fetchall()
-        for row in rows:
-            self.data.append({
-                'name': getType().query_income(int(row[1])),
-                'data': "%.2f" % round(float(row[0]), 2)
-            })
         self.write('hi')
 
 
