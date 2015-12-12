@@ -42,7 +42,7 @@ class get_query1(tornado.web.RequestHandler):
         self.data = []
         self.allDist = []
       
-        conn = DB.connect('dbname=urban_proj user=postgres')
+        conn = DB.connect('dbname=urban_proj user=june')
         cur = conn.cursor()
         self.write('hi')
 
